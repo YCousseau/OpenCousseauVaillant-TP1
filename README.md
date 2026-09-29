@@ -34,3 +34,20 @@ matplotlib n'étant pas disponible, l'IA a été utilisée afin de générer le 
 
 ## Calcul et affichage de l'histogramme
 
+Nous obtenons le résultat suivant:
+
+| Image | Histogramme |
+|-------|-------------|
+| ![](images_rapport/og.png ) | ![](images_rapport/og_hist.png ) |
+
+On peut constater un manque de valeur les plus élevées dans l'histogramme (abscence de blanc).
+
+## Egalisation de l'histogramme
+
+Après égalisation de l'histogramme nous obtenons les résultats suivant:
+
+| Image | Histogramme |
+|-------|-------------|
+| ![](images_rapport/egal.png ) | ![](images_rapport/egal_hist.png ) |
+
+On peut constater que le contraste est amélioré, toutes les parties de l'histogramme sont maintenant utilisées.
