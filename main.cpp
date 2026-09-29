@@ -30,6 +30,11 @@ int main(int argc, char **argv)
     printHist(img_peppers);
     waitKey(0);
 
+    equalizeHist(img_peppers, img_peppers);
+    printHist(img_peppers);
+
+    waitKey(0);
+
     return 0;
 }
 
