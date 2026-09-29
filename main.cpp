@@ -10,7 +10,7 @@ int main(int argc, char **argv)
     /**************************************************************************
      *             Présentation de la structure de données Image              *
      **************************************************************************/
-    
+
     Mat img_gray = imread("../imagesDeTest/monarch.png", IMREAD_GRAYSCALE);
     std::cout << "Taille (gris) : " << img_gray.shape() << ", Cannaux: " << img_gray.channels() << ", Type : " << img_gray.type() << std::endl;
 
@@ -29,10 +29,22 @@ int main(int argc, char **argv)
     Mat img_peppers = imread("../imagesDeTest/peppers-512.png", IMREAD_GRAYSCALE);
 
     printHist(img_peppers);
-    while(waitKey(0) != 'q');
+    while (waitKey(0) != 'q');
 
     equalizeHist(img_peppers, img_peppers);
-    while(waitKey(0) != 'q');
+    while (waitKey(0) != 'q');
+
+    /**************************************************************************
+     *             Modification de la luminosité et du contraste              *
+     **************************************************************************/
+    Mat imgLumCont;
+    convertScaleAbs(img_color, imgLumCont, 1, 40);
+    imshow("alpha=1, beta=40", imgLumCont);
+    while (waitKey(0) != 'q');
+
+    convertScaleAbs(img_color, imgLumCont, 1.5, 0);
+    imshow("alpha=1.5, beta=0", imgLumCont);
+    while (waitKey(0) != 'q');
 
     return 0;
 }
