@@ -10,14 +10,15 @@ int main(int argc, char **argv)
     /**************************************************************************
      *             Présentation de la structure de données Image              *
      **************************************************************************/
+    
     Mat img_gray = imread("../imagesDeTest/monarch.png", IMREAD_GRAYSCALE);
-    std::cout << "Forme (gris) : " << img_gray.shape() << ", Type : " << img_gray.type() << std::endl;
+    std::cout << "Taille (gris) : " << img_gray.shape() << ", Cannaux: " << img_gray.channels() << ", Type : " << img_gray.type() << std::endl;
 
     Mat img_color = imread("../imagesDeTest/monarch.png", IMREAD_COLOR);
-    std::cout << "Forme (gris) : " << img_color.shape() << ", Type : " << img_color.type() << std::endl;
+    std::cout << "Taille (couleur) : " << img_color.shape() << ", Cannaux: " << img_color.channels() << ", Type : " << img_color.type() << std::endl;
 
     Mat img_rgba = imread("../imagesDeTest/po.png", IMREAD_UNCHANGED);
-    std::cout << "Forme (gris) : " << img_rgba.shape() << ", Type : " << img_rgba.type() << std::endl;
+    std::cout << "Taille (RGBA) : " << img_rgba.shape() << ", Cannaux: " << img_rgba.channels() << ", Type : " << img_rgba.type() << std::endl;
 
     Vec4b &color = img_rgba.at<Vec4b>(0, 0);
     std::cout << "B: " << (int)color[0] << ", G: " << (int)color[1] << ", R: " << (int)color[2] << ", A: " << (int)color[3] << std::endl;
@@ -28,12 +29,10 @@ int main(int argc, char **argv)
     Mat img_peppers = imread("../imagesDeTest/peppers-512.png", IMREAD_GRAYSCALE);
 
     printHist(img_peppers);
-    waitKey(0);
+    while(waitKey(0) != 'q');
 
     equalizeHist(img_peppers, img_peppers);
-    printHist(img_peppers);
-
-    waitKey(0);
+    while(waitKey(0) != 'q');
 
     return 0;
 }
