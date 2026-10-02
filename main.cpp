@@ -98,30 +98,21 @@ void sous_echantillonner(Mat &img, int factor)
 {
     Mat outImg(img.rows / factor, img.cols / factor, img.type());
 
-    int r, g, b;
+    int r, g, colorMean;
     for (int i = 0; i < img.rows; i += factor)
     {
         for (int j = 0; j < img.cols; j += factor)
         {
-            b = 0;
-            g = 0;
-            r = 0;
+            colorMean = 0;
             for (int x = 0; x < factor; x++)
             {
                 for (int y = 0; y < factor; y++)
                 {
-                    auto pixel = img.at<Vec3b>(i + x, j + y);
-                    b += pixel[0];
-                    g += pixel[1];
-                    r += pixel[2];
+                    colorMean += img.at<uchar>(i + x, j + y);
                 }
             }
-            b /= factor * factor;
-            g /= factor * factor;
-            r /= factor * factor;
-            int new_x = i / factor;
-            int new_y = j / factor;
-            outImg.at<Vec3b>(new_x, new_y) = Vec3b(b, g, r);
+            colorMean /= factor * factor;
+            outImg.at<uchar>(i / factor, j / factor) = colorMean;
         }
     }
     imshow("Image d'origine", img);
