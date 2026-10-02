@@ -51,3 +51,18 @@ Après égalisation de l'histogramme nous obtenons les résultats suivant:
 | ![](images_rapport/egal.png ) | ![](images_rapport/egal_hist.png ) |
 
 On peut constater que le contraste est amélioré, toutes les parties de l'histogramme sont maintenant utilisées.
+
+## Modification de la luminosité et du contraste
+
+| Image originale | Alpha = 1 Beta = 40 | Alpha = 1,5 Beta = 0 |
+|-----------------|---------------------|----------------------|
+| ![](images_rapport/mon_og.png) | ![](images_rapport/a1b40.png) | ![](images_rapport/a15b0.png) |
+
+Visuellement, nous pouvons constater que l'augmentation du beta permet d'augmenter la luminosité et que l'augmentation de beta permet d'améliorer le contraste. 
+
+Si on regarde les histogrammes :
+| Image originale | Alpha = 1 Beta = 40 | Alpha = 1,5 Beta = 0 |
+|-----------------|---------------------|----------------------|
+| ![](images_rapport/mon_og_hist.png) | ![](images_rapport/a1b40_hist.png) | ![](images_rapport/a15b0_hist.png) |
+
+On constate que l'augementation de beta décale l'histogramme vers la droite, augmentant ainsi la quantité de blanc dans l'image.
