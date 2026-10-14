@@ -157,3 +157,48 @@ L'opération de redimmensionnement provoque une perte d'information.
 On constate un réel changment seulement à partir des la quantification par 16 de notre image. On peut observer que certaines couleurs se fonssent tandi que d'autre s'éclairessissent. On observe également que plus la quantification est basse (N plus petit), plus les couleurs s'unifient et les ombres et reflets se distingues. Les détails se perdent avec la réduction du facteur de quantification N. C'est à partir de la quantification par 4 que l'on distingue nettement les régions. 
 
 Sur les histogrames, il est possible d'observer clairement le facteur de quantification. Pour la quantification par 64, on distingue 64 piques à égale distance. De même pour les autres facteurs. 
+
+
+# Partie 5 - Rotation
+
+Pour effectuer une rotation, on calcule d'abord le centre de l'image puis la matrice de rotation avec le code suivant:
+
+```cpp
+Mat squares = imread("../imagesDeTest/squares.tif");
+
+int height = squares.rows;
+int width = squares.cols;
+
+Point2f center(width / 2.0f, height / 2.0f);
+Mat rotation_90 = getRotationMatrix2D(center, -90, 1.0);
+Mat rotation_45 = getRotationMatrix2D(center, -45, 1.0);
+Mat rotation_15 = getRotationMatrix2D(center, -15, 1.0);
+```
+
+Ensuite on utilise la fonction `warpAffine` : 
+
+```cpp
+Mat rotated_90_image;
+warpAffine(squares, rotated_90_image, rotation_90, cv::Size(width, height), INTER_LINEAR);
+```
+
+Avec le mode d'interpolation "NEAREST" nous obtenons les images suivantes: 
+
+![](images_rapport/rotation_nearest.png)
+
+Bien que les rotations soient toutes au final de 90° on constate que les images sont différentes.
+L'image qui effectue directement la rotation de 90° ne subit aucune dégradation de qualité.
+
+Les images tournées en plusieurs fois montrent une dégradation en qualité.
+Cela s'explique par le fait qu'une rotation de 45° ou 15° fait que certain pixels se retrouvent "en dehors de la grille". Une interpolation est alors nécessaire.
+
+Le cumul de ces interpolations provoquent la perte en qualité observée.
+Pour le mode "NEAREST" on constate que les bords sont dégradés (effet "d'érosion").
+
+Voici les images obtenues avec le mode "LINEAR" :
+
+![](images_rapport/rotation_linear.png)
+
+On peut constater ici aussi que les images qui subissent plus de rotations sont dégradées.
+Dans ce mode, les dégradations sont visibles sous forme de "flou" au niveau des bordures.
+

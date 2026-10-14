@@ -1,5 +1,6 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
+#include <opencv2/geometry/2d.hpp>
 
 using namespace cv;
 
@@ -80,6 +81,40 @@ int main(int argc, char **argv)
     quantification(img_512_gray, 16);
     quantification(img_512_gray, 4);
     quantification(img_512_gray, 2);
+
+    /**************************************************************************
+     *                               Rotation                                 *
+     **************************************************************************/
+    
+    Mat squares = imread("../imagesDeTest/squares.tif");
+    int height = squares.rows;
+    int width = squares.cols;
+ 
+    Point2f center(width / 2.0f, height / 2.0f);
+
+    Mat rotation_90 = getRotationMatrix2D(center, -90, 1.0);
+    Mat rotation_45 = getRotationMatrix2D(center, -45, 1.0);
+    Mat rotation_15 = getRotationMatrix2D(center, -15, 1.0);
+
+    Mat rotated_90_image;
+    warpAffine(squares, rotated_90_image, rotation_90, cv::Size(width, height), INTER_LINEAR);
+    Mat rotated_45_image;
+    warpAffine(squares, rotated_45_image, rotation_45, cv::Size(width, height), INTER_LINEAR);
+    warpAffine(rotated_45_image, rotated_45_image, rotation_45, cv::Size(width, height), INTER_LINEAR);
+
+    Mat rotated_15_image;
+    warpAffine(squares, rotated_15_image, rotation_15, cv::Size(width, height), INTER_LINEAR);
+    warpAffine(rotated_15_image, rotated_15_image, rotation_15, cv::Size(width, height), INTER_LINEAR);
+    warpAffine(rotated_15_image, rotated_15_image, rotation_15, cv::Size(width, height), INTER_LINEAR);
+    warpAffine(rotated_15_image, rotated_15_image, rotation_15, cv::Size(width, height), INTER_LINEAR);
+    warpAffine(rotated_15_image, rotated_15_image, rotation_15, cv::Size(width, height), INTER_LINEAR);
+    warpAffine(rotated_15_image, rotated_15_image, rotation_15, cv::Size(width, height), INTER_LINEAR);
+
+    // Display the result
+    imshow("Original Image", squares);
+    imshow("Rotated 90 Image", rotated_90_image);
+    imshow("Rotated 2x45 Image", rotated_45_image);
+    imshow("Rotated 6x15 Image", rotated_15_image);
     while (waitKey(0) != 'q')
         ;
 
