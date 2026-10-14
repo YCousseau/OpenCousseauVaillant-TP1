@@ -42,7 +42,7 @@ Nous obtenons le résultat suivant:
 
 On peut constater un manque de valeur les plus élevées dans l'histogramme (abscence de blanc).
 
-## Egalisation de l'histogramme
+## Egalisation de l'histogramme
 
 Après égalisation de l'histogramme nous obtenons les résultats suivant:
 
@@ -52,7 +52,7 @@ Après égalisation de l'histogramme nous obtenons les résultats suivant:
 
 On peut constater que le contraste est amélioré, toutes les parties de l'histogramme sont maintenant utilisées.
 
-## Modification de la luminosité et du contraste
+## Modification de la luminosité et du contraste
 
 | Image originale | Alpha = 1 Beta = 40 | Alpha = 1,5 Beta = 0 |
 |-----------------|---------------------|----------------------|
@@ -74,7 +74,7 @@ L'augmentation du contraste permet de rendre l'image plus lisible. Alpha est don
 
 # Partie 3 - Redimensionnement de l'image
 
-## Sous-Echantillonage
+## Sous-Echantillonage
 
 Voici la fonction créée pour redimensionner l'image: 
 
@@ -126,7 +126,7 @@ En utilisant la fonction `resize` nous obtenons les images suivantes:
 On peut constater que la méthode INTER_NEAREST permet de donner une image très nette au prix de certains détails.
 La méthode INTER_AREA permet de donner une image moins "nette" mais ressemble plus à l'image d'origine.
 
-## Sur-Echantillonage
+## Sur-Echantillonage
 
 Lors du sur-échantillonage avec la fonction `resize` nous obtenons les images suivantes:
 
@@ -158,6 +158,13 @@ On constate un réel changment seulement à partir des la quantification par 16 
 
 Sur les histogrames, il est possible d'observer clairement le facteur de quantification. Pour la quantification par 64, on distingue 64 piques à égale distance. De même pour les autres facteurs. 
 
+## Application de LUT colorées
+
+![](images_rapport/CompareLUTImages.png)
+
+Bien que les LUT modifient grandement la représentation de l'image, elles n'ajoutent pas d'informations à l'image originale. La seule information (par pixel) représentée dans l'image originale est le niveau de gris, les LUT "remplacent" (représentent) cette information par un niveau de couleur (rouge, bleu, rose) ou par un dégradé de couleur (JET). Mais dans tous les cas, une seule information est stockée par pixel et ne change pas, c'est une valeur de 0 à 255.
+
+Pour la comparaison des intensités des pixels de l'image, la LUT avec le dégradé de couleur (JET) semble être la meilleure représentation. Il est plus aisé de distinguer les faibles et fortes intensités par des couleurs différentes. 
 
 # Partie 5 - Rotation
 
