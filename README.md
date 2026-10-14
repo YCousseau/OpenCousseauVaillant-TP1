@@ -166,6 +166,16 @@ Bien que les LUT modifient grandement la représentation de l'image, elles n'ajo
 
 Pour la comparaison des intensités des pixels de l'image, la LUT avec le dégradé de couleur (JET) semble être la meilleure représentation. Il est plus aisé de distinguer les faibles et fortes intensités par des couleurs différentes. 
 
+## Séparation des plans de couleur
+
+![](images_rapport/CompareImageRGB.png)
+
+Sur cette image, on observe que la couleur bleu n'a pas beaucoup d'impact par rapport aux autres couleur (rouge et vert). À contrario, la couleur rouge semble être plus importante/intense. 
+
+D'après l'équation, la couleur verte est la plus impactante dans la luminosité de l'image et la couleur bleu est la moins impactante. 
+
+On peut observer une différence entre le niveau de gris et le plan vert sur les légumes rouges de l'image. Ces zones sont éclairessies sur le niveau de gris. Cela n'est pas dû à la composante verte ce qui explique l'écart. La composante rouge est très intense sur les zones rouges de l'image (ce qui est logique) et donc éclairessit ces zones sur le niveau de gris.
+
 # Partie 5 - Rotation
 
 Pour effectuer une rotation, on calcule d'abord le centre de l'image puis la matrice de rotation avec le code suivant:

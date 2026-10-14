@@ -83,25 +83,47 @@ int main(int argc, char **argv)
     // while (waitKey(0) != 'q')
     //     ;
 
+    // /**************************************************************************
+    //  *                       Application de LUT colorées                      *
+    //  **************************************************************************/
+    // Mat img_512_gray2 = imread("../imagesDeTest/peppers-512.png", IMREAD_GRAYSCALE);
+    // namedWindow("Image d'origine", WINDOW_NORMAL);
+    // imshow("Image d'origine", img_512_gray2);
+    // Mat coloredImg;
+    // applyColorMap(img_512_gray2, coloredImg, COLORMAP_JET);
+    // namedWindow("LUT - JET", WINDOW_NORMAL);
+    // imshow("LUT - JET", coloredImg);
+    // applyColorMap(img_512_gray2, coloredImg, COLORMAP_HOT);
+    // namedWindow("LUT - HOT", WINDOW_NORMAL);
+    // imshow("LUT - HOT", coloredImg);
+    // applyColorMap(img_512_gray2, coloredImg, COLORMAP_OCEAN);
+    // namedWindow("LUT - OCEAN", WINDOW_NORMAL);
+    // imshow("LUT - OCEAN", coloredImg);
+    // applyColorMap(img_512_gray2, coloredImg, COLORMAP_PINK);
+    // namedWindow("LUT - PINK", WINDOW_NORMAL);
+    // imshow("LUT - PINK", coloredImg);
+    // while (waitKey(0) != 'q')
+    //     ;
+
     /**************************************************************************
-     *                       Application de LUT colorées                      *
+     *                    Séparation des plans de couleur                     *
      **************************************************************************/
-    Mat img_512_gray2 = imread("../imagesDeTest/peppers-512.png", IMREAD_GRAYSCALE);
+    Mat img_512_rgb = imread("../imagesDeTest/peppers-512-RGB.png", IMREAD_COLOR_BGR);
+    Mat bgr[3];
+    split(img_512_rgb, bgr);
+    Mat img_512_rgb_gray;
+    cvtColor(img_512_rgb, img_512_rgb_gray, COLOR_BGR2GRAY);
+
     namedWindow("Image d'origine", WINDOW_NORMAL);
-    imshow("Image d'origine", img_512_gray2);
-    Mat coloredImg;
-    applyColorMap(img_512_gray2, coloredImg, COLORMAP_JET);
-    namedWindow("LUT - JET", WINDOW_NORMAL);
-    imshow("LUT - JET", coloredImg);
-    applyColorMap(img_512_gray2, coloredImg, COLORMAP_HOT);
-    namedWindow("LUT - HOT", WINDOW_NORMAL);
-    imshow("LUT - HOT", coloredImg);
-    applyColorMap(img_512_gray2, coloredImg, COLORMAP_OCEAN);
-    namedWindow("LUT - OCEAN", WINDOW_NORMAL);
-    imshow("LUT - OCEAN", coloredImg);
-    applyColorMap(img_512_gray2, coloredImg, COLORMAP_PINK);
-    namedWindow("LUT - PINK", WINDOW_NORMAL);
-    imshow("LUT - PINK", coloredImg);
+    imshow("Image d'origine", img_512_rgb);
+    namedWindow("Canal bleu", WINDOW_NORMAL);
+    imshow("Canal bleu", bgr[0]);
+    namedWindow("Canal vert", WINDOW_NORMAL);
+    imshow("Canal vert", bgr[1]);
+    namedWindow("Canal rouge", WINDOW_NORMAL);
+    imshow("Canal rouge", bgr[2]);
+    namedWindow("Image en niveau de gris", WINDOW_NORMAL);
+    imshow("Image en niveau de gris", img_512_rgb_gray);
     while (waitKey(0) != 'q')
         ;
 
