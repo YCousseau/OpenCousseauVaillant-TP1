@@ -148,3 +148,12 @@ On ne retrouve pas la "tache" sur l'image sur-échantillonée.
 
 L'opération de redimmensionnement provoque une perte d'information.
 
+# Partie 4 - Quantification, LUT et plan de couleur
+
+## Quantification de niveaux de gris
+
+![](images_rapport/CompareQuantificationImages.png)
+
+On constate un réel changment seulement à partir des la quantification par 16 de notre image. On peut observer que certaines couleurs se fonssent tandi que d'autre s'éclairessissent. On observe également que plus la quantification est basse (N plus petit), plus les couleurs s'unifient et les ombres et reflets se distingues. Les détails se perdent avec la réduction du facteur de quantification N. C'est à partir de la quantification par 4 que l'on distingue nettement les régions. 
+
+Sur les histogrames, il est possible d'observer clairement le facteur de quantification. Pour la quantification par 64, on distingue 64 piques à égale distance. De même pour les autres facteurs. 

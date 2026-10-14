@@ -3,7 +3,9 @@
 
 using namespace cv;
 
-void printHist(Mat img);
+void printHist(Mat img,
+               std::string orgTitle = "Image d'origine",
+               std::string histTitle = "Histogramme Niveaux de Gris");
 void sous_echantillonner(Mat &img, int factor);
 void quantification(Mat &img, int N);
 
@@ -84,7 +86,7 @@ int main(int argc, char **argv)
     return 0;
 }
 
-void printHist(Mat img)
+void printHist(Mat img, std::string orgTitle, std::string histTitle)
 {
     // Calculer l'histogramme
     Mat hist;
@@ -112,8 +114,10 @@ void printHist(Mat img)
     }
 
     // Affichage
-    imshow("Image d'origine", img);
-    imshow("Histogramme Niveaux de Gris", histImage);
+    namedWindow(orgTitle, WINDOW_NORMAL);
+    imshow(orgTitle, img);
+    namedWindow(histTitle, WINDOW_NORMAL);
+    imshow(histTitle, histImage);
 }
 
 void sous_echantillonner(Mat &img, int factor)
@@ -155,6 +159,7 @@ void quantification(Mat &img, int N)
             outImg.at<uchar>(i, j) = newVal;
         }
     }
-    namedWindow("Image quantifiée par " + std::to_string(N), WINDOW_NORMAL);
-    imshow("Image quantifiée par " + std::to_string(N), outImg);
+    printHist(outImg,
+              "Image quantifiée par " + std::to_string(N),
+              "Histograme quantifiée par " + std::to_string(N));
 }
