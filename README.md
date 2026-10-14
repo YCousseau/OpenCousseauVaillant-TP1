@@ -58,11 +58,73 @@ On peut constater que le contraste est amélioré, toutes les parties de l'histo
 |-----------------|---------------------|----------------------|
 | ![](images_rapport/mon_og.png) | ![](images_rapport/a1b40.png) | ![](images_rapport/a15b0.png) |
 
-Visuellement, nous pouvons constater que l'augmentation du beta permet d'augmenter la luminosité et que l'augmentation de beta permet d'améliorer le contraste. 
+Visuellement, nous pouvons constater que l'augmentation du beta permet d'augmenter la luminosité et que l'augmentation d'alpha permet d'améliorer le contraste. 
 
 Si on regarde les histogrammes :
+
 | Image originale | Alpha = 1 Beta = 40 | Alpha = 1,5 Beta = 0 |
 |-----------------|---------------------|----------------------|
 | ![](images_rapport/mon_og_hist.png) | ![](images_rapport/a1b40_hist.png) | ![](images_rapport/a15b0_hist.png) |
 
 On constate que l'augementation de beta décale l'histogramme vers la droite, augmentant ainsi la quantité de blanc dans l'image.
+
+L'augmentation d'alpha permet d'augmenter l'espacement entre les pics, augmentant ainsi le contraste.
+
+L'augmentation du contraste permet de rendre l'image plus lisible. Alpha est donc un paramètre important.
+
+# Partie 3 - Redimensionnement de l'image
+
+## Sous-Echantillonage
+
+Voici la fonction créée pour redimensionner l'image: 
+
+```cpp
+void sous_echantillonner(Mat &img, int factor)
+{
+    Mat outImg(img.rows / factor, img.cols / factor, img.type());
+
+    int r, g, colorMean;
+    for (int i = 0; i < img.rows; i += factor)
+    {
+        for (int j = 0; j < img.cols; j += factor)
+        {
+            colorMean = 0;
+            for (int x = 0; x < factor; x++)
+            {
+                for (int y = 0; y < factor; y++)
+                {
+                    colorMean += img.at<uchar>(i + x, j + y);
+                }
+            }
+            colorMean /= factor * factor;
+            outImg.at<uchar>(i / factor, j / factor) = colorMean;
+        }
+    }
+    std::cout << "Taille image d'origine " << img.shape() << std::endl;
+    std::cout << "Taille image redimentionnée" << outImg.shape() << std::endl;
+    imshow("Image d'origine", img);
+    imshow("Image redimentionnée", outImg);
+}
+```
+
+On obtient en sortie: 
+```
+Taille image d'origine [256 x 256]
+Taille image redimentionnée[64 x 64]
+```
+
+Et l'image suivante:
+
+| Image originale | Image redimentionnée |
+|-----------------|---------------------|
+| ![](imagesDeTest/peppers-256.png) | ![](images_rapport/resized.png) |
+
+En utilisant la fonction `resize` nous obtenons les images suivantes:
+
+![](images_rapport/CompareResizeImages.png)
+
+On peut constater que la méthode INTER_NEAREST permet de donner une image très nette au prix de certains détails.
+La méthode INTER_AREA permet de donner une image moins "nette" mais ressemble plus à l'image d'origine.
+
+## Sur-Echantillonage
+
