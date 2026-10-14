@@ -56,6 +56,14 @@ int main(int argc, char **argv)
      **************************************************************************/
     Mat img_256 = imread("../imagesDeTest/peppers-256.png", IMREAD_GRAYSCALE);
     sous_echantillonner(img_256, 4);
+    Mat img_256_nearest;
+    resize(img_256, img_256_nearest, Size(), 0.25, 0.25, INTER_NEAREST);
+    namedWindow("Image redimentionnée INTER_NEAREST", WINDOW_NORMAL);
+    imshow("Image redimentionnée INTER_NEAREST", img_256_nearest);
+    Mat img_256_area;
+    resize(img_256, img_256_area, Size(), 0.25, 0.25, INTER_AREA);
+    namedWindow("Image redimentionnée INTER_AREA", WINDOW_NORMAL);
+    imshow("Image redimentionnée INTER_AREA", img_256_area);
     while (waitKey(0) != 'q')
         ;
 
@@ -116,5 +124,6 @@ void sous_echantillonner(Mat &img, int factor)
         }
     }
     imshow("Image d'origine", img);
+    namedWindow("Image redimentionnée", WINDOW_NORMAL);
     imshow("Image redimentionnée", outImg);
 }
