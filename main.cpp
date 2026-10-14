@@ -5,6 +5,7 @@ using namespace cv;
 
 void printHist(Mat img);
 void sous_echantillonner(Mat &img, int factor);
+void quantification(Mat &img, int N);
 
 int main(int argc, char **argv)
 {
@@ -54,16 +55,29 @@ int main(int argc, char **argv)
     /**************************************************************************
      *                         Sous-échantillonnage                           *
      **************************************************************************/
-    Mat img_256 = imread("../imagesDeTest/peppers-256.png", IMREAD_GRAYSCALE);
-    sous_echantillonner(img_256, 4);
-    Mat img_256_nearest;
-    resize(img_256, img_256_nearest, Size(), 0.25, 0.25, INTER_NEAREST);
-    namedWindow("Image redimentionnée INTER_NEAREST", WINDOW_NORMAL);
-    imshow("Image redimentionnée INTER_NEAREST", img_256_nearest);
-    Mat img_256_area;
-    resize(img_256, img_256_area, Size(), 0.25, 0.25, INTER_AREA);
-    namedWindow("Image redimentionnée INTER_AREA", WINDOW_NORMAL);
-    imshow("Image redimentionnée INTER_AREA", img_256_area);
+    // Mat img_256 = imread("../imagesDeTest/peppers-256.png", IMREAD_GRAYSCALE);
+    // sous_echantillonner(img_256, 4);
+    // Mat img_256_nearest;
+    // resize(img_256, img_256_nearest, Size(), 0.25, 0.25, INTER_NEAREST);
+    // namedWindow("Image redimentionnée INTER_NEAREST", WINDOW_NORMAL);
+    // imshow("Image redimentionnée INTER_NEAREST", img_256_nearest);
+    // Mat img_256_area;
+    // resize(img_256, img_256_area, Size(), 0.25, 0.25, INTER_AREA);
+    // namedWindow("Image redimentionnée INTER_AREA", WINDOW_NORMAL);
+    // imshow("Image redimentionnée INTER_AREA", img_256_area);
+    // while (waitKey(0) != 'q')
+    //     ;
+
+    /**************************************************************************
+     *                    Quantification de niveaux de gris                   *
+     **************************************************************************/
+    Mat img_512_gray = imread("../imagesDeTest/peppers-512.png", IMREAD_GRAYSCALE);
+    namedWindow("Image d'origine", WINDOW_NORMAL);
+    imshow("Image d'origine", img_512_gray);
+    quantification(img_512_gray, 64);
+    quantification(img_512_gray, 16);
+    quantification(img_512_gray, 4);
+    quantification(img_512_gray, 2);
     while (waitKey(0) != 'q')
         ;
 
@@ -126,4 +140,21 @@ void sous_echantillonner(Mat &img, int factor)
     imshow("Image d'origine", img);
     namedWindow("Image redimentionnée", WINDOW_NORMAL);
     imshow("Image redimentionnée", outImg);
+}
+
+void quantification(Mat &img, int N)
+{
+    Mat outImg(img);
+    int step = 256 / N;
+    for (int i = 0; i < outImg.rows; i++)
+    {
+        for (int j = 0; j < outImg.cols; j++)
+        {
+            uchar originalVal = outImg.at<uchar>(i, j);
+            uchar newVal = std::floor(originalVal / step) * step;
+            outImg.at<uchar>(i, j) = newVal;
+        }
+    }
+    namedWindow("Image quantifiée par " + std::to_string(N), WINDOW_NORMAL);
+    imshow("Image quantifiée par " + std::to_string(N), outImg);
 }
