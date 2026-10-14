@@ -128,3 +128,23 @@ La méthode INTER_AREA permet de donner une image moins "nette" mais ressemble p
 
 ## Sur-Echantillonage
 
+Lors du sur-échantillonage avec la fonction `resize` nous obtenons les images suivantes:
+
+![](images_rapport/sur_echantillonage.png)
+
+On constate que l'image sur-échantillonée avec la méthode "NEAREST" apparait plus nette, mais les pixels dessinant les contours sont très visibles.
+
+L'image utilisant la méthode "LINEAR" apparait plus "floue", les contours sont moins marqués.
+
+L'agrandissement ne permet cependant pas de retrouver tous les détails de l'image originale (512*512).
+
+Par exemple, en prenant un détail de l'image originale: 
+
+| Image originale | Image redimentionnée |
+|-----------------|---------------------|
+| ![](images_rapport/detail_rapport.png) | ![](images_rapport/detail_sur.png) |
+
+On ne retrouve pas la "tache" sur l'image sur-échantillonée.
+
+L'opération de redimmensionnement provoque une perte d'information.
+
