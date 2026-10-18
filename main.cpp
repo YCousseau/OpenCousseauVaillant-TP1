@@ -9,6 +9,7 @@ void printHist(Mat img,
                std::string histTitle = "Histogramme Niveaux de Gris");
 void sous_echantillonner(Mat &img, int factor);
 void quantification(Mat &img, int N);
+Mat convolution(const Mat &img, const Mat &kernel, const std::string &title);
 
 int main(int argc, char **argv)
 {
@@ -162,7 +163,74 @@ int main(int argc, char **argv)
     while (waitKey(0) != 'q')
         ;
 
+    destroyAllWindows();
+
+    /**************************************************************************
+     *                               Convolutions                              *
+     **************************************************************************/
+    Mat K1 = (Mat_<float>(3, 3) <<
+        1, 2, 1,
+        2, 4, 2,
+        1, 2, 1
+    ) / 16.0f;
+
+    Mat K2 = Mat::ones(3, 3, CV_32F) / 9.0f;
+
+    Mat K3 = (Mat_<float>(3, 3) <<
+         1, -3,  1,
+        -3,  9, -3,
+         1, -3,  1
+    );
+
+    Mat K4 = (Mat_<float>(3, 3) <<
+        -1,  0,  1,
+        -2,  0,  2,
+        -1,  0,  1
+    );
+
+    Mat K5 = (Mat_<float>(3, 3) <<
+         0, -1, -1,
+         1,  0, -1,
+         1,  1,  0
+    );
+
+    Mat K6 = (Mat_<float>(3, 3) <<
+         0,  1,  0,
+         1, -4,  1,
+         0,  1,  0
+    );
+    
+    namedWindow("Image originale", WINDOW_NORMAL);
+    imshow("Image originale", img_512_gray2);
+
+    convolution(img_512_gray2, K1, "K1");
+    convolution(img_512_gray2, K2, "K2");
+    convolution(img_512_gray2, K3, "K3");
+    convolution(img_512_gray2, K4, "K4");
+    convolution(img_512_gray2, K5, "K5");
+    convolution(img_512_gray2, K6, "K6");
+
+    while (waitKey(0) != 'q')
+        ;
+
+    destroyAllWindows();
+
     return 0;
+}
+
+Mat convolution(const Mat &img, const Mat &kernel, const std::string &title)
+{
+    Mat resultat;
+
+    filter2D(img, resultat, CV_32F, kernel);
+
+    Mat affichage;
+    normalize(resultat, affichage, 0, 255, NORM_MINMAX, CV_8U);
+
+    namedWindow(title, WINDOW_NORMAL);
+    imshow(title, affichage);
+
+    return resultat;
 }
 
 void printHist(Mat img, std::string orgTitle, std::string histTitle)

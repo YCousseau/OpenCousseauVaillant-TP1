@@ -1,5 +1,4 @@
 # VPO - TP1
-``Yanis COUSSEAU, Louis VAILLANT``
 
 # Partie 1 - Présentation de la structure de données Image
 
@@ -219,3 +218,58 @@ Voici les images obtenues avec le mode "LINEAR" :
 On peut constater ici aussi que les images qui subissent plus de rotations sont dégradées.
 Dans ce mode, les dégradations sont visibles sous forme de "flou" au niveau des bordures.
 
+# Partie 6 - Convolution et filtrage d'images bruitées
+
+## Application de filtres de convolution
+
+On code une fonction `convolution` pour appliquer un filtre: 
+```cpp
+Mat convolution(const Mat &img, const Mat &kernel, const std::string &title)
+{
+    Mat resultat;
+
+    filter2D(img, resultat, CV_32F, kernel);
+
+    Mat affichage;
+    normalize(resultat, affichage, 0, 255, NORM_MINMAX, CV_8U);
+
+    namedWindow(title, WINDOW_NORMAL);
+    imshow(title, affichage);
+
+    return resultat;
+}
+```
+
+Le calcul est réalisé en `CV_32F` afin de conserver les valeurs négatives produites par certains filtres. Pour l'affichage, le résultat est normalisé entre 0 et 255.
+On déclare comme suit les kernels :
+```cpp
+Mat K1 = (Mat_<float>(3, 3) <<
+        1, 2, 1,
+        2, 4, 2,
+        1, 2, 1
+    ) / 16.0f;
+```
+
+On obtient les résultats suivants :
+![](images_rapport/convolution.png)
+
+| Noyau | Somme des coefficients | Effet |
+|-------|------------------------|-------------|
+| K1 | 1 | Lissage |
+| K2 | 1 | Lissage |
+| K3 | 1 | Renforcement des détails |
+| K4 | 0 | Détection de contours principalement verticaux |
+| K5 | 0 | Mise en évidence de variations diagonales |
+| K6 | 0 | Détection des contours dans plusieurs directions |
+
+Les kernels K1 et K2 lissent l'image, le kernel K3 renforce les détails et les kernels K4 K5 et K6 permettent la détection de contours.
+
+Quand la somme des coefficients vaut 1, l'image est conservée. Quand elle vaut 0 on vient extraire des informations de l'image.
+
+Le noyau K2 donne un lissage plus uniforme. Ceci est cohérent avec la répartitions des coefficients (ceux de K2 sont les mêmes partout là où ceux de K1 sont différents )
+
+Le noyau K4 détecte les contours verticaux, K5 et K6 les contours dans toutes les directions.
+
+Afin de permettre l'affichage des images après des opérations avec des flottants. Nous avons normalisé l'images en valeurs entre 0 et 255.
+
+Un calcul avec des nombres non signés induirait une perte d'information pour les kernels utilisant des nombres négatifs.
